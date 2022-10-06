@@ -89,6 +89,7 @@ const userStateReducer = (state, action) => {
 
 const validateEmail = (email) => {
   return email.match(
+    // eslint-disable-next-line
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
@@ -117,6 +118,8 @@ const SignupForm = () => {
       toast.error("Password doesn't match");
     } else if (!validateEmail(enteredEmail)) {
       toast.error("Please enter correct email");
+    } else {
+      toast.success("User registered Successfuly for now");
     }
   };
 

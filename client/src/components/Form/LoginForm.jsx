@@ -62,6 +62,8 @@ const LoginForm = () => {
   const isFormValidHandler = () => {
     if (enteredUsername === "" || enteredPassword === "") {
       toast.error("Please Enter all details");
+    } else {
+      toast.success("User Logged In Successfully for now");
     }
   };
 
