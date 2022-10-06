@@ -19,15 +19,14 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // Test -------------------------- Importing the styles / other components ----------------
 
-
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
-  name: null,
+  name: "",
   showPassword: false,
   showConfirmPassword: false,
-  enteredUsername: null,
-  enteredPassword: null,
-  confirmPassword: null,
+  enteredUsername: "",
+  enteredPassword: "",
+  confirmPassword: "",
 };
 
 const userStateReducer = (state, action) => {
@@ -73,7 +72,7 @@ const userStateReducer = (state, action) => {
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
-      enteredPassword: state.password,
+      enteredPassword: state.enteredPassword,
       confirmPassword: action.confirmPassword.trim(),
     };
   } else if (action.type === "ENTERED-NAME") {
@@ -82,8 +81,8 @@ const userStateReducer = (state, action) => {
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
-      enteredPassword: state.password,
-      confirmPassword: action.confirmPassword,
+      enteredPassword: state.enteredPassword,
+      confirmPassword: state.confirmPassword,
     };
   }
 };
@@ -101,14 +100,16 @@ const SignupForm = () => {
 
   // Test ----------------- Form validation logic ------------
   const isFormValidHandler = () => {
-    console.log("Signup Button Clicked");
-    toast("Hello");
+    console.log("Sign up button clicked");
     if (
-      name === "" &&
-      enteredUsername === "" &&
-      enteredPassword === "" &&
+      name === "" ||
+      enteredUsername === "" ||
+      enteredPassword === "" ||
       confirmPassword === ""
     ) {
+      toast.error("Please enter all the details");
+    } else if (enteredPassword !== confirmPassword) {
+      toast.error("Password doesn't match");
     }
   };
 

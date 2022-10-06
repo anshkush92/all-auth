@@ -25,7 +25,17 @@ const App = () => {
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="*" element={<h1>Error 404</h1>}></Route>
       </Routes>
-      <ToastContainer></ToastContainer>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      ></ToastContainer>
     </Box>
   );
 };
