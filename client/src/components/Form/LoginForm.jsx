@@ -204,6 +204,19 @@ const LoginForm = () => {
                     password: event.target.value,
                   });
                 }}
+                InputProps={{
+                  endAdornment: currentUserState.showPassword ? (
+                    <VisibilityIcon
+                      onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    ></VisibilityIcon>
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    ></VisibilityOffIcon>
+                  ),
+                }}
               ></TextField>
               <Box
                 sx={{ display: "flex", justifyContent: "flex-end", mt: "6px" }}
