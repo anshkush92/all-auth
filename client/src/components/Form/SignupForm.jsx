@@ -20,6 +20,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
+  name: null,
   showPassword: false,
   showConfirmPassword: false,
   enteredUsername: null,
@@ -30,6 +31,7 @@ const userState = {
 const userStateReducer = (state, action) => {
   if (action.type === "SHOW-PASSWORD") {
     return {
+      name: state.name,
       showPassword: !state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
@@ -38,6 +40,7 @@ const userStateReducer = (state, action) => {
     };
   } else if (action.type === "SHOW-CONFIRM-PASSWORD") {
     return {
+      name: state.name,
       showPassword: state.showPassword,
       showConfirmPassword: !state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
@@ -46,6 +49,7 @@ const userStateReducer = (state, action) => {
     };
   } else if (action.type === "ENTERED-USERNAME") {
     return {
+      name: state.name,
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: action.username,
@@ -54,6 +58,7 @@ const userStateReducer = (state, action) => {
     };
   } else if (action.type === "ENTERED-PASSWORD") {
     return {
+      name: state.name,
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
@@ -62,6 +67,16 @@ const userStateReducer = (state, action) => {
     };
   } else if (action.type === "CONFIRM-PASSWORD") {
     return {
+      name: state.name,
+      showPassword: state.showPassword,
+      showConfirmPassword: state.showConfirmPassword,
+      enteredUsername: state.enteredUsername,
+      enteredPassword: state.password,
+      confirmPassword: action.confirmPassword,
+    };
+  } else if (action.type === "ENTERED-NAME") {
+    return {
+      name: state.name,
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
@@ -190,7 +205,25 @@ const SignupForm = () => {
         {/* Contains the UserName, Password, Login, New Users Section */}
         <Box mt={2}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
+              <InputLabel shrink htmlFor="name">
+                Name
+              </InputLabel>
+              <TextField
+                id="name"
+                size="small"
+                fullWidth
+                placeholder="Enter name"
+                onChange={(event) => {
+                  dispatch({
+                    type: "ENTERED-NAME",
+                    name: event.target.value,
+                  });
+                }}
+              ></TextField>
+            </Grid>
+
+            <Grid item xs={6}>
               <InputLabel shrink htmlFor="username">
                 Username
               </InputLabel>
