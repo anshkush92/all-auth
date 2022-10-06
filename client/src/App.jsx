@@ -3,6 +3,9 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Excuses from "./pages/Excuse/Excuses";
 import News from "./pages/News/News";
 import Weather from "./pages/Weather/Weather";
@@ -22,6 +25,7 @@ const App = () => {
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="*" element={<h1>Error 404</h1>}></Route>
       </Routes>
+      <ToastContainer></ToastContainer>
     </Box>
   );
 };

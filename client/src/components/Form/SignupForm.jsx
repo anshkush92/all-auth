@@ -13,10 +13,12 @@ import {
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // Test -------------------------- Importing the styles / other components ----------------
+
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -52,7 +54,7 @@ const userStateReducer = (state, action) => {
       name: state.name,
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
-      enteredUsername: action.username,
+      enteredUsername: action.username.trim(),
       enteredPassword: state.enteredPassword,
       confirmPassword: state.confirmPassword,
     };
@@ -62,7 +64,7 @@ const userStateReducer = (state, action) => {
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
-      enteredPassword: action.password,
+      enteredPassword: action.password.trim(),
       confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "CONFIRM-PASSWORD") {
@@ -72,11 +74,11 @@ const userStateReducer = (state, action) => {
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
       enteredPassword: state.password,
-      confirmPassword: action.confirmPassword,
+      confirmPassword: action.confirmPassword.trim(),
     };
   } else if (action.type === "ENTERED-NAME") {
     return {
-      name: state.name,
+      name: action.name.trim(),
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
       enteredUsername: state.enteredUsername,
@@ -92,7 +94,24 @@ const SignupForm = () => {
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
   console.log(currentUserState);
 
+  const { name, enteredUsername, enteredPassword, confirmPassword } =
+    currentUserState;
+
   const navigate = useNavigate();
+
+  // Test ----------------- Form validation logic ------------
+  const isFormValidHandler = () => {
+    console.log("Signup Button Clicked");
+    toast("Hello");
+    if (
+      name === "" &&
+      enteredUsername === "" &&
+      enteredPassword === "" &&
+      confirmPassword === ""
+    ) {
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -319,6 +338,7 @@ const SignupForm = () => {
                   "&:hover": { backgroundColor: "#161616" },
                 }}
                 fullWidth
+                onClick={isFormValidHandler}
               >
                 Sign Up
               </Button>
