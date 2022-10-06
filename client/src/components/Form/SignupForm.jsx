@@ -1,4 +1,5 @@
 // Test -------------------------- Importing the Packages ---------------------------------
+import { useReducer } from "react";
 import {
   Box,
   Typography,
@@ -12,10 +13,70 @@ import {
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // Test -------------------------- Importing the styles / other components ----------------
+
+// Test -------------------------- Reducer Functions of the Component ---------------------
+const userState = {
+  showPassword: false,
+  showConfirmPassword: false,
+  enteredUsername: null,
+  enteredPassword: null,
+  confirmPassword: null,
+};
+
+const userStateReducer = (state, action) => {
+  if (action.type === "SHOW-PASSWORD") {
+    return {
+      showPassword: !state.showPassword,
+      showConfirmPassword: state.showConfirmPassword,
+      enteredUsername: state.enteredUsername,
+      enteredPassword: state.enteredPassword,
+      confirmPassword: state.confirmPassword,
+    };
+  } else if (action.type === "SHOW-CONFIRM-PASSWORD") {
+    return {
+      showPassword: state.showPassword,
+      showConfirmPassword: !state.showConfirmPassword,
+      enteredUsername: state.enteredUsername,
+      enteredPassword: state.enteredPassword,
+      confirmPassword: state.confirmPassword,
+    };
+  } else if (action.type === "ENTERED-USERNAME") {
+    return {
+      showPassword: state.showPassword,
+      showConfirmPassword: state.showConfirmPassword,
+      enteredUsername: action.username,
+      enteredPassword: state.enteredPassword,
+      confirmPassword: state.confirmPassword,
+    };
+  } else if (action.type === "ENTERED-PASSWORD") {
+    return {
+      showPassword: state.showPassword,
+      showConfirmPassword: state.showConfirmPassword,
+      enteredUsername: state.enteredUsername,
+      enteredPassword: action.password,
+      confirmPassword: state.confirmPassword,
+    };
+  } else if (action.type === "CONFIRM-PASSWORD") {
+    return {
+      showPassword: state.showPassword,
+      showConfirmPassword: state.showConfirmPassword,
+      enteredUsername: state.enteredUsername,
+      enteredPassword: state.password,
+      confirmPassword: action.confirmPassword,
+    };
+  }
+};
 
 // Test -------------------------- The current component ----------------------------------
 const SignupForm = () => {
+  // For the userState in the App
+  const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
+  console.log(currentUserState);
+
   const navigate = useNavigate();
   return (
     <Card
@@ -133,14 +194,50 @@ const SignupForm = () => {
               <InputLabel shrink htmlFor="username">
                 Username
               </InputLabel>
-              <TextField id="username" size="small" fullWidth></TextField>
+              <TextField
+                id="username"
+                size="small"
+                fullWidth
+                placeholder="Enter email or username"
+                onChange={(event) => {
+                  dispatch({
+                    type: "ENTERED-USERNAME",
+                    username: event.target.value,
+                  });
+                }}
+              ></TextField>
             </Grid>
 
             <Grid item xs={12}>
               <InputLabel shrink htmlFor="password">
                 Password
               </InputLabel>
-              <TextField id="password" size="small" fullWidth></TextField>
+              <TextField
+                id="password"
+                size="small"
+                fullWidth
+                placeholder="Enter password"
+                type={`${currentUserState.showPassword ? "text" : "password"}`}
+                onChange={(event) => {
+                  dispatch({
+                    type: "ENTERED-PASSWORD",
+                    password: event.target.value,
+                  });
+                }}
+                InputProps={{
+                  endAdornment: currentUserState.showPassword ? (
+                    <VisibilityIcon
+                      onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    ></VisibilityIcon>
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    ></VisibilityOffIcon>
+                  ),
+                }}
+              ></TextField>
             </Grid>
 
             <Grid item xs={12}>
@@ -151,6 +248,33 @@ const SignupForm = () => {
                 id="confirm-password"
                 size="small"
                 fullWidth
+                placeholder="Confirm your password"
+                type={`${
+                  currentUserState.showConfirmPassword ? "text" : "password"
+                }`}
+                onChange={(event) => {
+                  dispatch({
+                    type: "CONFIRM-PASSWORD",
+                    confirmPassword: event.target.value,
+                  });
+                }}
+                InputProps={{
+                  endAdornment: currentUserState.showConfirmPassword ? (
+                    <VisibilityIcon
+                      onClick={() =>
+                        dispatch({ type: "SHOW-CONFIRM-PASSWORD" })
+                      }
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    ></VisibilityIcon>
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() =>
+                        dispatch({ type: "SHOW-CONFIRM-PASSWORD" })
+                      }
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    ></VisibilityOffIcon>
+                  ),
+                }}
               ></TextField>
             </Grid>
 
