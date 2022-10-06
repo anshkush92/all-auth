@@ -21,10 +21,10 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
-  name: "",
+  username: "",
   showPassword: false,
   showConfirmPassword: false,
-  enteredUsername: "",
+  enteredEmail: "",
   enteredPassword: "",
   confirmPassword: "",
 };
@@ -32,55 +32,55 @@ const userState = {
 const userStateReducer = (state, action) => {
   if (action.type === "SHOW-PASSWORD") {
     return {
-      name: state.name,
+      username: state.username,
       showPassword: !state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
-      enteredUsername: state.enteredUsername,
+      enteredEmail: state.enteredEmail,
       enteredPassword: state.enteredPassword,
       confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "SHOW-CONFIRM-PASSWORD") {
     return {
-      name: state.name,
+      username: state.username,
       showPassword: state.showPassword,
       showConfirmPassword: !state.showConfirmPassword,
-      enteredUsername: state.enteredUsername,
+      enteredEmail: state.enteredEmail,
       enteredPassword: state.enteredPassword,
       confirmPassword: state.confirmPassword,
     };
-  } else if (action.type === "ENTERED-USERNAME") {
+  } else if (action.type === "ENTERED-EMAIL") {
     return {
-      name: state.name,
+      username: state.username,
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
-      enteredUsername: action.username.trim(),
+      enteredEmail: action.Email.trim(),
       enteredPassword: state.enteredPassword,
       confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "ENTERED-PASSWORD") {
     return {
-      name: state.name,
+      username: state.username,
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
-      enteredUsername: state.enteredUsername,
+      enteredEmail: state.enteredEmail,
       enteredPassword: action.password.trim(),
       confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "CONFIRM-PASSWORD") {
     return {
-      name: state.name,
+      username: state.username,
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
-      enteredUsername: state.enteredUsername,
+      enteredEmail: state.enteredEmail,
       enteredPassword: state.enteredPassword,
       confirmPassword: action.confirmPassword.trim(),
     };
-  } else if (action.type === "ENTERED-NAME") {
+  } else if (action.type === "ENTERED-USERNAME") {
     return {
-      name: action.name.trim(),
+      username: action.username.trim(),
       showPassword: state.showPassword,
       showConfirmPassword: state.showConfirmPassword,
-      enteredUsername: state.enteredUsername,
+      enteredEmail: state.enteredEmail,
       enteredPassword: state.enteredPassword,
       confirmPassword: state.confirmPassword,
     };
@@ -93,7 +93,7 @@ const SignupForm = () => {
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
   console.log(currentUserState);
 
-  const { name, enteredUsername, enteredPassword, confirmPassword } =
+  const { username, enteredEmail, enteredPassword, confirmPassword } =
     currentUserState;
 
   const navigate = useNavigate();
@@ -102,8 +102,8 @@ const SignupForm = () => {
   const isFormValidHandler = () => {
     console.log("Sign up button clicked");
     if (
-      name === "" ||
-      enteredUsername === "" ||
+      username === "" ||
+      enteredEmail === "" ||
       enteredPassword === "" ||
       confirmPassword === ""
     ) {
@@ -219,30 +219,12 @@ const SignupForm = () => {
           </Grid>
         </Box>
 
-        {/* For dividing the Social Media Login and UserName Password Login */}
+        {/* For dividing the Social Media Login and Email Password Login */}
         <Divider textAlign="center">OR</Divider>
 
-        {/* Contains the UserName, Password, Login, New Users Section */}
+        {/* Contains the Email, Password, Login, New Users Section */}
         <Box mt={2}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <InputLabel shrink htmlFor="name">
-                Name
-              </InputLabel>
-              <TextField
-                id="name"
-                size="small"
-                fullWidth
-                placeholder="Enter name"
-                onChange={(event) => {
-                  dispatch({
-                    type: "ENTERED-NAME",
-                    name: event.target.value,
-                  });
-                }}
-              ></TextField>
-            </Grid>
-
             <Grid item xs={6}>
               <InputLabel shrink htmlFor="username">
                 Username
@@ -251,11 +233,29 @@ const SignupForm = () => {
                 id="username"
                 size="small"
                 fullWidth
-                placeholder="Enter email or username"
+                placeholder="Enter username"
                 onChange={(event) => {
                   dispatch({
                     type: "ENTERED-USERNAME",
                     username: event.target.value,
+                  });
+                }}
+              ></TextField>
+            </Grid>
+
+            <Grid item xs={6}>
+              <InputLabel shrink htmlFor="Email">
+                Email
+              </InputLabel>
+              <TextField
+                id="Email"
+                size="small"
+                fullWidth
+                placeholder="Enter Email"
+                onChange={(event) => {
+                  dispatch({
+                    type: "ENTERED-EMAIL",
+                    Email: event.target.value,
                   });
                 }}
               ></TextField>
