@@ -128,7 +128,7 @@ const Navbar = () => {
 
         {/* For the Avatar and its Options when logged in */}
         {isLogin && (
-          <Box sx={{ minWidth: {sm: "80px"} }}>
+          <Box sx={{ minWidth: { sm: "80px" }, textAlign: "center" }}>
             <Tooltip title="Open Settings" arrow>
               <IconButton onClick={handleOpenUserMenu} disableRipple>
                 <Avatar
@@ -196,8 +196,7 @@ const Navbar = () => {
               variant="contained"
               disableElevation
               onClick={() => {
-                loginHandler();
-                navigate("/");
+                navigate("/login");
               }}
               sx={{
                 color: "white",

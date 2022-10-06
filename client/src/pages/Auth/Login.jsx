@@ -1,15 +1,16 @@
 // Test -------------------------- Importing the Packages ---------------------------------
 import { Box } from "@mui/material";
-import Navbar from "../../components/Navbar/Navbar";
 
 // Test -------------------------- Importing the styles / other components ----------------
+import Navbar from "../../components/Navbar/Navbar";
+import LoginForm from "../../components/Form/LoginForm";
 
 // Test -------------------------- The current component ----------------------------------
 const Login = () => {
   return (
     <Box>
       <Navbar></Navbar>
-      Login
+      <LoginForm></LoginForm>
     </Box>
   );
 };
