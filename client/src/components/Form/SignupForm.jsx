@@ -87,11 +87,16 @@ const userStateReducer = (state, action) => {
   }
 };
 
+const validateEmail = (email) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
+
 // Test -------------------------- The current component ----------------------------------
 const SignupForm = () => {
   // For the userState in the App
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
-  console.log(currentUserState);
 
   const { username, enteredEmail, enteredPassword, confirmPassword } =
     currentUserState;
@@ -110,6 +115,8 @@ const SignupForm = () => {
       toast.error("Please enter all the details");
     } else if (enteredPassword !== confirmPassword) {
       toast.error("Password doesn't match");
+    } else if (!validateEmail(enteredEmail)) {
+      toast.error("Please enter correct email");
     }
   };
 

@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -22,8 +23,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
   showPassword: false,
-  enteredUsername: null,
-  enteredPassword: null,
+  enteredUsername: "",
+  enteredPassword: "",
 };
 
 const userStateReducer = (state, action) => {
@@ -36,14 +37,14 @@ const userStateReducer = (state, action) => {
   } else if (action.type === "ENTERED-USERNAME") {
     return {
       showPassword: state.showPassword,
-      enteredUsername: action.username,
+      enteredUsername: action.username.trim(),
       enteredPassword: state.enteredPassword,
     };
   } else if (action.type === "ENTERED-PASSWORD") {
     return {
       showPassword: state.showPassword,
       enteredUsername: state.enteredUsername,
-      enteredPassword: action.password,
+      enteredPassword: action.password.trim(),
     };
   }
 };
@@ -53,11 +54,17 @@ const LoginForm = () => {
   // Test ----------------- States in the Component -------------------------
   // For the userState in the App
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
-  console.log(currentUserState);
+  const { enteredUsername, enteredPassword } = currentUserState;
   // Hook for imperative navigation for the routes
   const navigate = useNavigate();
 
   // Test -------------------- State Changing Function ----------------------
+  const isFormValidHandler = () => {
+    if (enteredUsername === "" || enteredPassword === "") {
+      toast.error("Please Enter all details");
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -244,6 +251,7 @@ const LoginForm = () => {
                   "&:hover": { backgroundColor: "#161616" },
                 }}
                 fullWidth
+                onClick={isFormValidHandler}
               >
                 Login
               </Button>
