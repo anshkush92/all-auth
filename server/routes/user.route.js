@@ -6,7 +6,8 @@ const userRouter = express.Router();
 
 // Test --------------------- Sign up form Data -----------------------------
 userRouter.post("/signup", (req, res) => {
-    console.log(`Data from the Sign Up form ${req.body}`);
+    console.log(req.body);
+    res.send(req.body);
 })
 
 // Test --------------------- Login form data -------------------------------

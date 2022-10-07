@@ -84,6 +84,15 @@ const userStateReducer = (state, action) => {
       enteredPassword: state.enteredPassword,
       confirmPassword: state.confirmPassword,
     };
+  } else if (action.type === "CLEAR-FORM") {
+    return {
+      username: "",
+      showPassword: false,
+      showConfirmPassword: false,
+      enteredEmail: "",
+      enteredPassword: "",
+      confirmPassword: "",
+    };
   }
 };
 
@@ -105,8 +114,7 @@ const SignupForm = () => {
   const navigate = useNavigate();
 
   // Test ----------------- Form validation logic ------------
-  const isFormValidHandler = () => {
-    console.log("Sign up button clicked");
+  const isFormValidHandler = async () => {
     if (
       username === "" ||
       enteredEmail === "" ||
@@ -120,6 +128,28 @@ const SignupForm = () => {
       toast.error("Please enter correct email");
     } else {
       toast.success("User registered Successfuly for now");
+
+      // Sending the data to the backend using the fetch API
+      const data = await fetch("http://localhost:8000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Converts the JS object to JSON
+        body: JSON.stringify({
+          username,
+          enteredEmail,
+          enteredPassword,
+          confirmPassword,
+        }),
+      });
+
+      // Getting the response from the above fetch request
+      const response = await data.json();
+      console.log(response);
+
+      // Clearing the data in the form
+      dispatch({ type: "CLEAR-FORM" });
     }
   };
 
@@ -243,6 +273,7 @@ const SignupForm = () => {
                 id="username"
                 size="small"
                 fullWidth
+                value={username}
                 placeholder="Enter username"
                 onChange={(event) => {
                   dispatch({
@@ -260,6 +291,7 @@ const SignupForm = () => {
               <TextField
                 id="Email"
                 size="small"
+                value={enteredEmail}
                 fullWidth
                 placeholder="Enter Email"
                 onChange={(event) => {
@@ -278,6 +310,7 @@ const SignupForm = () => {
               <TextField
                 id="password"
                 size="small"
+                value={enteredPassword}
                 fullWidth
                 placeholder="Enter password"
                 type={`${currentUserState.showPassword ? "text" : "password"}`}
@@ -310,6 +343,7 @@ const SignupForm = () => {
               <TextField
                 id="confirm-password"
                 size="small"
+                value={confirmPassword}
                 fullWidth
                 placeholder="Confirm your password"
                 type={`${

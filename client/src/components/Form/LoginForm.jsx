@@ -46,6 +46,12 @@ const userStateReducer = (state, action) => {
       enteredUsername: state.enteredUsername,
       enteredPassword: action.password.trim(),
     };
+  } else if (action.type === "CLEAR-FORM") {
+    return {
+      showPassword: false,
+      enteredUsername: "",
+      enteredPassword: "",
+    };
   }
 };
 
@@ -64,6 +70,7 @@ const LoginForm = () => {
       toast.error("Please Enter all details");
     } else {
       toast.success("User Logged In Successfully for now");
+      dispatch({ type: "CLEAR-FORM" });
     }
   };
 
@@ -186,6 +193,7 @@ const LoginForm = () => {
               <TextField
                 id="username"
                 size="small"
+                value={enteredUsername}
                 fullWidth
                 placeholder="Enter email or username"
                 onChange={(event) => {
@@ -204,6 +212,7 @@ const LoginForm = () => {
               <TextField
                 id="password"
                 size="small"
+                value={enteredPassword}
                 fullWidth
                 placeholder="Enter password"
                 type={`${currentUserState.showPassword ? "text" : "password"}`}
