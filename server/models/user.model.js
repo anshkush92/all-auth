@@ -1,6 +1,7 @@
 // Model ---> Table,  Schema ---> Columns in Table --------> Analogy to Relational Database
 const { Schema, model } = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
 // Test --------------------------- Creating the User Schema ----------------------------------
 // Creating the schema for the User -------> How Column Name (relational database) will look like
@@ -47,6 +48,14 @@ const userSchema = new Schema({
             required: true,
         }
     }]
+});
+
+// Test ------------------------- Function fired before / after saving data in the database ------------
+// This function is fired before the saving the user in the Database
+// We don't get the doc, because ran before saving into database, so we need to use the this keyword to access the property as used in the database
+userSchema.pre("save", async (next) => {
+    console.log(`Before saving user in database`, this);
+    next();
 });
 
 // Test ------------------------- Creating the Model and storing in the MongoDB ---------
