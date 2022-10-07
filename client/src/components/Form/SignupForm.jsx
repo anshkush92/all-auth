@@ -130,7 +130,7 @@ const SignupForm = () => {
       toast.success("User registered Successfuly for now");
 
       // Sending the data to the backend using the fetch API
-      const data = await fetch("http://localhost:8000/signup", {
+      const data = await fetch("/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
