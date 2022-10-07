@@ -85,6 +85,7 @@ const userStateReducer = (state, action) => {
       confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "CLEAR-FORM") {
+    console.log("Clearform");
     return {
       username: "",
       showPassword: false,
@@ -129,7 +130,7 @@ const SignupForm = () => {
     } else {
       toast.success("User registered Successfuly for now");
 
-      // Sending the data to the backend using the fetch API
+      // Sending the data to the backend using the fetch API -----> Getting req.body as response
       const data = await fetch("/signup", {
         method: "POST",
         headers: {

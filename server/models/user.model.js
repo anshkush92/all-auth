@@ -1,5 +1,5 @@
 // Model ---> Table,  Schema ---> Columns in Table --------> Analogy to Relational Database
-const { Schema, Model } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const validator = require("validator");
 
 // Test --------------------------- Creating the User Schema ----------------------------------
@@ -52,7 +52,7 @@ const userSchema = new Schema({
 // Test ------------------------- Creating the Model and storing in the MongoDB ---------
 // Creating the Model ------>  Can be seen as table in the Relational Database 
 // "users" ---> Table has "userSchema" ----> columns and we access it by userModel
-const userModel = new Model("users", userSchema);
+const userModel = new model("users", userSchema);
 
 // Test --------------------------- Exporting the Model ---------------------------------
 // Exporting the created model (table) 
