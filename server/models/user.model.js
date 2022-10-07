@@ -2,6 +2,7 @@
 const { Schema, Model } = require("mongoose");
 const validator = require("validator");
 
+// Test --------------------------- Creating the User Schema ----------------------------------
 // Creating the schema for the User -------> How Column Name (relational database) will look like
 const userSchema = new Schema({
     name: {
@@ -48,9 +49,11 @@ const userSchema = new Schema({
     }]
 });
 
+// Test ------------------------- Creating the Model and storing in the MongoDB ---------
 // Creating the Model ------>  Can be seen as table in the Relational Database 
 // "users" ---> Table has "userSchema" ----> columns and we access it by userModel
 const userModel = new Model("users", userSchema);
 
+// Test --------------------------- Exporting the Model ---------------------------------
 // Exporting the created model (table) 
 module.exports = userModel; 
