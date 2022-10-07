@@ -10,16 +10,20 @@ const userModel = require("../models/user.model");
 userRouter.post("/signup", async (req, res) => {
     console.log("Checking the data from client", req.body);
     const { username: name, enteredEmail, enteredPassword, confirmPassword } = req.body;
-    
+
     try {
-        const newUser = await userModel.create({
+        const newUser = await new userModel({
             name,
             email: enteredEmail,
             password: enteredPassword,
             confirmPassword,
         });
         console.log("Values of the newUser", newUser);
-        res.status(200).json(newUser);
+
+        const finalUser = await newUser.save();
+        console.log(finalUser);
+
+        res.status(200).json(finalUser);
 
     } catch (error) {
         res.status(422).json(error);
