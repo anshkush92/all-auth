@@ -54,11 +54,12 @@ const userSchema = new Schema({
 // Test ------------------------- Function fired before / after saving data in the database ------------
 // This function is fired before the saving the user in the Database
 // We don't get the doc, because ran before saving into database, so we need to use the this keyword to access the property as used in the database
-// userSchema.pre('save', async (next) => {
-//     // console.log(`Before saving user in database`, this);
-//     this.password = await bcrypt.hash(this.password, 12);
-//     next();
-// });
+userSchema.pre('save', async function (next) {
+    console.log(`Before saving user in database`, this);
+    this.password = await bcrypt.hash(this.password, 12);
+    this.confirmPassword = await bcrypt.hash(this.confirmPassword, 12);
+    next();
+});
 
 // Test ------------------------- Creating the Model and storing in the MongoDB ---------
 // Creating the Model ------>  Can be seen as table in the Relational Database 
