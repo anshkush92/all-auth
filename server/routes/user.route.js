@@ -11,19 +11,31 @@ userRouter.post("/signup", async (req, res) => {
     console.log("Checking the data from client", req.body);
     const { username: name, enteredEmail, enteredPassword, confirmPassword } = req.body;
 
+    if (!name || !enteredEmail || !enteredPassword || !confirmPassword) {
+        res.status(422).json({ error: "Please fill all the details" });
+    }
+
     try {
-        const newUser = await new userModel({
-            name,
-            email: enteredEmail,
-            password: enteredPassword,
-            confirmPassword,
-        });
-        console.log("Values of the newUser", newUser);
+        // Checking whether the User with the same email exsists or not
+        const exsistingUser = await userModel.findOne({ email: enteredEmail });
 
-        const finalUser = await newUser.save();
-        console.log(finalUser);
+        if (exsistingUser) {
+            res.status(422).json({ error: "Email already exsists" });
+        } else if (enteredPassword !== confirmPassword) {
+            res.status(422).json({ error: "Password doesn't match" });
+        } else {
+            const newUser = await new userModel({
+                name,
+                email: enteredEmail,
+                password: enteredPassword,
+                confirmPassword,
+            });
+            console.log("Values of the newUser", newUser);
 
-        res.status(200).json(finalUser);
+            const finalUser = await newUser.save();
+            console.log(finalUser);
+            res.status(200).json(finalUser);
+        }
 
     } catch (error) {
         res.status(422).json(error);

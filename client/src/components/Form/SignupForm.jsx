@@ -128,8 +128,6 @@ const SignupForm = () => {
     } else if (!validateEmail(enteredEmail)) {
       toast.error("Please enter correct email");
     } else {
-      toast.success("User registered Successfuly for now");
-
       // Sending the data to the backend using the fetch API -----> Getting req.body as response
       const data = await fetch("/signup", {
         method: "POST",
@@ -148,6 +146,12 @@ const SignupForm = () => {
       // Getting the response from the above fetch request
       const response = await data.json();
       console.log(response);
+
+      if (response.error === undefined) {
+        toast.success("User successfully signed up");
+      } else {
+        toast.error(response.error);
+      }
 
       // Clearing the data in the form
       dispatch({ type: "CLEAR-FORM" });
