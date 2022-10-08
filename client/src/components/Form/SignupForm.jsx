@@ -149,6 +149,7 @@ const SignupForm = () => {
 
       if (response.error === undefined) {
         toast.success("User successfully signed up");
+        navigate("/login");
         // Clearing the data in the form
         dispatch({ type: "CLEAR-FORM" });
       } else {

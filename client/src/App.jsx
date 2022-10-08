@@ -26,8 +26,8 @@ const App = () => {
         <Route path="*" element={<h1>Error 404</h1>}></Route>
       </Routes>
       <ToastContainer
-        position="top-right"
-        autoClose={5000}
+        position="bottom-right"
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

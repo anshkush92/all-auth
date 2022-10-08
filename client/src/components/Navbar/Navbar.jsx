@@ -1,6 +1,7 @@
 // Test -------------------------- Importing the Packages ---------------------------------
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   AppBar,
   Avatar,
@@ -34,7 +35,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // Test ----------------- For using the global State ----------------------------------------------
-  const { isLogin, loginHandler, logoutHandler } = useContext(AuthContext);
+  const { isLogin, logoutHandler } = useContext(AuthContext);
 
   // Test ----------------- State of the component ----------------------------------------------------
   // State for opening / closing the Settings Menu
@@ -178,8 +179,9 @@ const Navbar = () => {
                   key={index}
                   onClick={() => {
                     logoutHandler();
-                    navigate("/");
+                    navigate("/login");
                     handleCloseUserMenu();
+                    toast.success("Logged Out Successfully");
                   }}
                 >
                   <Typography textAlign="center">{setting}</Typography>

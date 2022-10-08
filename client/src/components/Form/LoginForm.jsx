@@ -1,5 +1,5 @@
 // Test -------------------------- Importing the Packages ---------------------------------
-import { useReducer } from "react";
+import { useReducer, useContext } from "react";
 import {
   Box,
   Typography,
@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import AuthContext from "../../app/AuthContext/AuthContext";
 
 // Test -------------------------- Importing the styles / other components ----------------
 
@@ -59,6 +60,7 @@ const userStateReducer = (state, action) => {
 const LoginForm = () => {
   // Test ----------------- States in the Component -------------------------
   // For the userState in the App
+  const { loginHandler } = useContext(AuthContext);
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
   const { enteredEmail, enteredPassword } = currentUserState;
   // Hook for imperative navigation for the routes
@@ -86,6 +88,8 @@ const LoginForm = () => {
       if (response.error === undefined) {
         toast.success("User Logged in Successfully");
         dispatch({ type: "CLEAR-FORM" });
+        loginHandler();
+        navigate("/");
       } else {
         toast.error(response.error);
       }
