@@ -145,16 +145,15 @@ const SignupForm = () => {
 
       // Getting the response from the above fetch request
       const response = await data.json();
-      console.log(response);
+      console.log(response, response.error);
 
       if (response.error === undefined) {
         toast.success("User successfully signed up");
+        // Clearing the data in the form
+        dispatch({ type: "CLEAR-FORM" });
       } else {
-        toast.error(response.error);
+        toast.error(response.error || "Error found");
       }
-
-      // Clearing the data in the form
-      dispatch({ type: "CLEAR-FORM" });
     }
   };
 

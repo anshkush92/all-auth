@@ -3,6 +3,8 @@ const express = require("express");
 const userRouter = express.Router();
 // Importing the User Model to check whether the user exists or not
 const userModel = require("../models/user.model");
+// Importing the bcrypt js
+const bcrypt = require("bcryptjs");
 
 // Creating the API for the User ------> Sign Up and Login
 
@@ -46,8 +48,40 @@ userRouter.post("/signup", async (req, res) => {
 })
 
 // Test --------------------- Login form data -------------------------------
-userRouter.post("/login", (req, res) => {
-    console.log(`Data from the login form ${req.body}`);
+userRouter.post("/login", async (req, res) => {
+    console.log("Checking the data from client ---> Login", req.body);
+    const { enteredEmail, enteredPassword } = req.body;
+
+    if (!enteredEmail || !enteredPassword) {
+        res.status(422).json({ error: "Please fill all the details" });
+    }
+
+    try {
+        const findUser = await userModel.findOne({ email: enteredEmail });
+        console.log("FindUser", findUser);
+
+        if (findUser) {
+            console.log("Find User if");
+            const isValidUser = await bcrypt.compare(enteredPassword, findUser.password);
+            console.log("isValidUser", isValidUser);
+
+            if (isValidUser) {
+                console.log("User found");
+                res.status(200).json({ message: "User found" });
+            } else {
+                console.log("Email or password is wrong");
+                res.status(422).json({ error: "Email or password is wrong" });
+            }
+
+        } else {
+            console.log("User doesn't exsists");
+            res.status(422).json({ error: "User does not exsist" });
+        }
+
+    } catch (error) {
+        // Converts JS object into JSON
+        res.status(422).json(error);
+    }
 })
 
 // Test ---------------------- Exporting all the routes ---------------------

@@ -23,7 +23,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
   showPassword: false,
-  enteredUsername: "",
+  enteredEmail: "",
   enteredPassword: "",
 };
 
@@ -31,25 +31,25 @@ const userStateReducer = (state, action) => {
   if (action.type === "SHOW-PASSWORD") {
     return {
       showPassword: !state.showPassword,
-      enteredUsername: state.enteredUsername,
+      enteredEmail: state.enteredEmail,
       enteredPassword: state.enteredPassword,
     };
-  } else if (action.type === "ENTERED-USERNAME") {
+  } else if (action.type === "ENTERED-EMAIL") {
     return {
       showPassword: state.showPassword,
-      enteredUsername: action.username.trim(),
+      enteredEmail: action.email.trim(),
       enteredPassword: state.enteredPassword,
     };
   } else if (action.type === "ENTERED-PASSWORD") {
     return {
       showPassword: state.showPassword,
-      enteredUsername: state.enteredUsername,
+      enteredEmail: state.enteredEmail,
       enteredPassword: action.password.trim(),
     };
   } else if (action.type === "CLEAR-FORM") {
     return {
       showPassword: false,
-      enteredUsername: "",
+      enteredEmail: "",
       enteredPassword: "",
     };
   }
@@ -60,17 +60,35 @@ const LoginForm = () => {
   // Test ----------------- States in the Component -------------------------
   // For the userState in the App
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
-  const { enteredUsername, enteredPassword } = currentUserState;
+  const { enteredEmail, enteredPassword } = currentUserState;
   // Hook for imperative navigation for the routes
   const navigate = useNavigate();
 
   // Test -------------------- State Changing Function ----------------------
-  const isFormValidHandler = () => {
-    if (enteredUsername === "" || enteredPassword === "") {
+  const isFormValidHandler = async () => {
+    if (enteredEmail === "" || enteredPassword === "") {
       toast.error("Please Enter all details");
     } else {
-      toast.success("User Logged In Successfully for now");
-      dispatch({ type: "CLEAR-FORM" });
+      const data = await fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Converts JS object into JSON
+        body: JSON.stringify({ enteredEmail, enteredPassword }),
+      });
+
+      // Expecting to receive JSON from the server
+      // Converts the JSON in JS object
+      const response = await data.json();
+      console.log(currentUserState, response, response.error);
+
+      if (response.error === undefined) {
+        toast.success("User Logged in Successfully");
+        dispatch({ type: "CLEAR-FORM" });
+      } else {
+        toast.error(response.error);
+      }
     }
   };
 
@@ -187,19 +205,19 @@ const LoginForm = () => {
         <Box mt={2}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <InputLabel shrink htmlFor="username">
-                Username
+              <InputLabel shrink htmlFor="email">
+                Email
               </InputLabel>
               <TextField
-                id="username"
+                id="email"
                 size="small"
-                value={enteredUsername}
+                value={enteredEmail}
                 fullWidth
-                placeholder="Enter email or username"
+                placeholder="Enter email"
                 onChange={(event) => {
                   dispatch({
-                    type: "ENTERED-USERNAME",
-                    username: event.target.value,
+                    type: "ENTERED-EMAIL",
+                    email: event.target.value,
                   });
                 }}
               ></TextField>
