@@ -1,5 +1,5 @@
 // Test -------------------------- Importing the Packages ---------------------------------
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -17,6 +17,7 @@ import {
   List,
   ListItem,
   ListItemButton,
+  Skeleton,
 } from "@mui/material";
 
 // Test -------------------------- Icons --------------------------------------------------
@@ -42,6 +43,8 @@ const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   // State for managing the Hamburger menu opening / closing (True ---> Open, False ---> Close)
   const [drawerStatus, setDrawerStatus] = useState(false);
+  // State for managing the Avatar Loading
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
   // Test ------------------- Functions for changing the states -----------------------------------------
   const handleOpenUserMenu = (event) => {
@@ -59,6 +62,12 @@ const Navbar = () => {
   const closeDrawer = () => {
     setDrawerStatus(false);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsImageLoading(false);
+    }, 3000);
+  }, []);
   // Test ------------------ The Actual Component --------------------------------------------------------
   return (
     <AppBar
@@ -132,10 +141,19 @@ const Navbar = () => {
           <Box sx={{ minWidth: { sm: "80px" }, textAlign: "center" }}>
             <Tooltip title="Open Settings" arrow>
               <IconButton onClick={handleOpenUserMenu} disableRipple>
-                <Avatar
-                  alt="Ansh Singh"
-                  src="https://mui.com/static/images/avatar/2.jpg"
-                ></Avatar>
+                {isImageLoading ? (
+                  <Skeleton
+                    sx={{ backgroundColor: "white" }}
+                    variant="circular"
+                  >
+                    <Avatar></Avatar>
+                  </Skeleton>
+                ) : (
+                  <Avatar
+                    alt="Ansh Singh"
+                    src="https://mui.com/static/images/avatar/2.jpg"
+                  ></Avatar>
+                )}
               </IconButton>
             </Tooltip>
             <Menu
