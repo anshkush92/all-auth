@@ -50,10 +50,10 @@ const userSchema = new Schema({
     }]
 });
 
-
 // Test ------------------------- Function fired before / after saving data in the database ------------
 // This function is fired before the saving the user in the Database
 // We don't get the doc, because ran before saving into database, so we need to use the this keyword to access the property as used in the database
+// Use the function () {} instead of the () => {} function to avoid the errors
 userSchema.pre('save', async function (next) {
     console.log(`Before saving user in database`, this);
     this.password = await bcrypt.hash(this.password, 12);
