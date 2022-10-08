@@ -56,8 +56,9 @@ const userSchema = new Schema({
 // Use the function () {} instead of the () => {} function to avoid the errors
 userSchema.pre('save', async function (next) {
     console.log(`Before saving user in database`, this);
-    this.password = await bcrypt.hash(this.password, 12);
-    this.confirmPassword = await bcrypt.hash(this.confirmPassword, 12);
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    this.confirmPassword = await bcrypt.hash(this.confirmPassword, salt);
     next();
 });
 

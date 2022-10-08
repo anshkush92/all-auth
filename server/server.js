@@ -12,6 +12,9 @@ require("dotenv").config();
 // Creating an express application named app
 const app = express();
 
+// Requiring the cookie parser
+const cookieParser = require("cookie-parser");
+
 // Test --------------------------- Fetching all files / config ---------------
 // Now importing / accessing the database connection
 const db = require("./db/connection");
@@ -26,6 +29,9 @@ app.use(cors());
 
 // Converting the data received from frontend into JSON for the Backend
 app.use(express.json());
+
+// Using the cookie parser
+app.use(cookieParser());
 
 // Using the routes defined for different paths
 app.use(commonRouter);
