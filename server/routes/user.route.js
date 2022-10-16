@@ -38,7 +38,7 @@ userRouter.post("/signup", async (req, res) => {
             console.log("Values of the newUser", newUser);
 
             const finalUser = await newUser.save();
-            console.log(finalUser);
+            console.log("Saving the newUser", finalUser);
             res.status(200).json(finalUser);
         }
 

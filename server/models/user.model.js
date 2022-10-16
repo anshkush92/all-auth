@@ -72,7 +72,7 @@ userSchema.pre('save', async function (next) {
 // Runs before the userSchema.pre()
 userSchema.methods.generateAuthToken = async function () {
     // To generate the token we need ----> Header, Payload, Secret Key
-    console.log(process.env.JWT_SECRET_KEY, this);
+    console.log("Secret Key in JWT", process.env.JWT_SECRET_KEY, "Data from the Login Form", this);
 
     try {
         // Generate the token when the user is logged in successfully
@@ -86,7 +86,7 @@ userSchema.methods.generateAuthToken = async function () {
         // Returning the generated token
         return generatedToken;
     } catch (error) {
-        console.log(error);
+        console.log("Catch block error", error);
         res.status(422).json(error);
     }
 }

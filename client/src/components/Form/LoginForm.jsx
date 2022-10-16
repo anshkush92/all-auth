@@ -86,7 +86,14 @@ const LoginForm = () => {
       // Expecting to receive JSON from the server
       // Converts the JSON in JS object
       const response = await data.json();
-      console.log(currentUserState, response, response.error);
+      console.log(
+        "Current User State",
+        currentUserState,
+        "Response",
+        response,
+        "Response Error",
+        response.error
+      );
 
       if (response.error === undefined) {
         toast.success("User Logged in Successfully");

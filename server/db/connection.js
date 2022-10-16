@@ -12,4 +12,4 @@ mongoose.connect(db, {
     useNewUrlParser: true,
 })
     .then(() => console.log("Successfully Connected to Database"))
-    .catch((error) => console.log(error));
+    .catch((error) => console.log("Database connection Error", error));
