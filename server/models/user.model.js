@@ -2,6 +2,7 @@
 const { Schema, model } = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Test --------------------------- Creating the User Schema ----------------------------------
 // Creating the schema for the User -------> How Column Name (relational database) will look like
@@ -61,6 +62,30 @@ userSchema.pre('save', async function (next) {
     this.confirmPassword = await bcrypt.hash(this.confirmPassword, salt);
     next();
 });
+
+// Test ------------------------- Creating the JWT Token for the user ------------------------------------
+// Use the function () instead of the arrow functions to avoid common errors when dealing with MongoDB
+// Runs before the userSchema.pre()
+userSchema.methods.generateAuthToken = async function () {
+    // To generate the token we need ----> Header, Payload, Secret Key
+    console.log(process.env.JWT_SECRET_KEY, this);
+
+    try {
+        // Generate the token when the user is logged in successfully
+        const generatedToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+            expiresIn: 1 * 24 * 60 * 60,
+        });
+        // After geenrating the token, save it in the database in the tokens field
+        this.tokens.token = generatedToken;
+        // Saving the JWT token in the database
+        await this.save();
+        // Returning the generated token
+        return generatedToken;
+    } catch (error) {
+        console.log(error);
+        res.status(422).json(error);
+    }
+}
 
 // Test ------------------------- Creating the Model and storing in the MongoDB ---------
 // Creating the Model ------>  Can be seen as table in the Relational Database 

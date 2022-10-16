@@ -67,6 +67,11 @@ userRouter.post("/login", async (req, res) => {
 
             if (isValidUser) {
                 console.log("User found");
+                // Firing the generateToken to generate the token for the valid user
+                const token = await findUser.generateAuthToken();
+                // Checking whether we are getting the token or not 
+                console.log("JWT Token Generated", token);
+                
                 res.status(200).json({ message: "User found" });
             } else {
                 console.log("Email or password is wrong");

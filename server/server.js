@@ -27,10 +27,10 @@ const userRouter = require("./routes/user.route");
 // For error free data passing from frontend to backend and vice-versa
 app.use(cors());
 
-// Converting the data received from frontend into JSON for the Backend
+// Converting the data received from frontend JSON to JS Object for the Backend
 app.use(express.json());
 
-// Using the cookie parser
+// Using the cookie parser to control cookies easily
 app.use(cookieParser());
 
 // Using the routes defined for different paths
