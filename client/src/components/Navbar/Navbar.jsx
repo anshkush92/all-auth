@@ -197,6 +197,7 @@ const Navbar = () => {
                   key={index}
                   onClick={() => {
                     logoutHandler();
+                    localStorage.removeItem("jwtAuthToken");
                     navigate("/login");
                     handleCloseUserMenu();
                     toast.success("Logged Out Successfully");

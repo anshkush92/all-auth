@@ -95,7 +95,16 @@ const LoginForm = () => {
         response.error
       );
 
+      // Storing the token in the localStorage of the browsre
+      if (response.status === 201 || response.status === 200) {
+      }
+
       if (response.error === undefined) {
+        console.log(
+          "Setting auth Token in the Local Storage",
+          response.result.jwtToken
+        );
+        localStorage.setItem("jwtAuthToken", response.result.jwtToken);
         toast.success("User Logged in Successfully");
         dispatch({ type: "CLEAR-FORM" });
         loginHandler();
