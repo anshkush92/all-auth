@@ -43,7 +43,7 @@ userRouter.post("/signup", async (req, res) => {
         }
 
     } catch (error) {
-        res.status(422).json(error);
+        res.status(422).json({ message: "Catch block error", error });
         console.log("Catch block error", error);
     }
 
@@ -101,7 +101,8 @@ userRouter.post("/login", async (req, res) => {
 
     } catch (error) {
         // Converts JS object into JSON
-        res.status(422).json(error);
+        res.status(422).json({ message: "Catch block error", error });
+        console.log("Catch block error", error);
     }
 })
 
