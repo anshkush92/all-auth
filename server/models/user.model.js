@@ -57,9 +57,13 @@ const userSchema = new Schema({
 // Use the function () {} instead of the () => {} function to avoid the errors
 userSchema.pre('save', async function (next) {
     console.log(`Before saving user in database`, this);
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
-    this.confirmPassword = await bcrypt.hash(this.confirmPassword, salt);
+
+    // Change the Encrypted password only when the password is modified not everytime
+    if (this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 12);
+        this.confirmPassword = await bcrypt.hash(this.confirmPassword, 12);
+    }
+
     next();
 });
 
@@ -76,7 +80,7 @@ userSchema.methods.generateAuthToken = async function () {
             expiresIn: 1 * 24 * 60 * 60,
         });
         // After geenrating the token, save it in the database in the tokens field
-        this.tokens.token = generatedToken;
+        this.tokens = this.tokens.concat({ token: generatedToken });
         // Saving the JWT token in the database
         await this.save();
         // Returning the generated token
