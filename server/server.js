@@ -22,6 +22,7 @@ const db = require("./db/connection");
 // Now importing the different routes defined
 const commonRouter = require("./routes/common.route");
 const userRouter = require("./routes/user.route");
+const authenticateUserRouter = require("./routes/authenticateUser.router");
 
 // Test --------------------------- Adding required middlewares --------------
 // For error free data passing from frontend to backend and vice-versa
@@ -36,6 +37,7 @@ app.use(cookieParser());
 // Using the routes defined for different paths
 app.use(commonRouter);
 app.use(userRouter);
+app.use(authenticateUserRouter);
 
 // Test --------------------------- Running the server ------------------------
 // Defining the PORT on which our server will be running
