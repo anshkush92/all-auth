@@ -26,6 +26,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 // Test -------------------------- Importing the styles / other components ----------------
 import AuthContext from "../../app/AuthContext/AuthContext";
 import UserContext from "../../app/UserContext/User.context";
+import NavBarButtonsDesktop from "./NavBarButtonDesktop";
 
 // Test -------------------------- The current component ----------------------------------
 const Pages = ["News", "Weather", "Excuses"];
@@ -62,11 +63,6 @@ const Navbar = () => {
     setDrawerStatus(false);
   };
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsImageLoading(false);
-  //   }, 2000);
-  // }, []);
   // Test ------------------ The Actual Component --------------------------------------------------------
   return (
     <AppBar
@@ -123,16 +119,7 @@ const Navbar = () => {
             gap: { xs: "20px", sm: "40px" },
           }}
         >
-          {Pages.map((page, index) => (
-            <Button
-              key={index}
-              variant="standard"
-              sx={{ color: "white", p: 0, minWidth: 0 }}
-              onClick={() => navigate(`/${page.toLowerCase()}`)}
-            >
-              {page}
-            </Button>
-          ))}
+          <NavBarButtonsDesktop></NavBarButtonsDesktop>
         </Box>
 
         {/* For the Avatar and its Options when logged in */}
