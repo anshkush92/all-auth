@@ -21,6 +21,7 @@ import HoverLinkTypography from "./Shared/HoverLinkTypography";
 import SubmitButton from "./Shared/SubmitButton";
 import SocialButton from "./Shared/SocialButton";
 import LoadingBar from "./Shared/LoadingBar";
+import HeadingContent from "./Shared/HeadingContent";
 
 // Test -------------------------- Importing the styles / other components ----------------
 
@@ -133,20 +134,10 @@ const LoginForm = () => {
         >
           <CardContent>
             {/* Heading and the subheading for the Card Box */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="h6" fontWeight="700">
-                Login
-              </Typography>
-              <Typography variant="body2">
+            <Box>
+              <HeadingContent heading="Login">
                 Enter your credentials to access your account
-              </Typography>
+              </HeadingContent>
             </Box>
 
             {/* The Grid container which contains the Social Media Login Buttons*/}
@@ -225,7 +216,10 @@ const LoginForm = () => {
                       mt: "6px",
                     }}
                   >
-                    <HoverLinkTypography link="#forget-password">
+                    <HoverLinkTypography
+                      link="#forget-password"
+                      variant="body2"
+                    >
                       Forget Password ?
                     </HoverLinkTypography>
                   </Box>

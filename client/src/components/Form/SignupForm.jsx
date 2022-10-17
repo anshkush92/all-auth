@@ -22,6 +22,7 @@ import HoverLinkTypography from "./Shared/HoverLinkTypography";
 import SubmitButton from "./Shared/SubmitButton";
 import SocialButton from "./Shared/SocialButton";
 import LoadingBar from "./Shared/LoadingBar";
+import HeadingContent from "./Shared/HeadingContent";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -162,20 +163,10 @@ const SignupForm = () => {
         >
           <CardContent>
             {/* Heading and the subheading for the Card Box */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="h6" fontWeight="700">
-                Signup
-              </Typography>
-              <Typography variant="body2">
+            <Box>
+              <HeadingContent heading="Sign Up">
                 Create your account to get Started
-              </Typography>
+              </HeadingContent>
             </Box>
 
             {/* The Grid container which contains the Social Media Login Buttons*/}
