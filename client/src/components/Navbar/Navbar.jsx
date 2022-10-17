@@ -36,8 +36,8 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // Test ----------------- For using the global State ----------------------------------------------
-  const { isLogin, logoutHandler } = useContext(AuthContext);
-  const { user } = useContext(UserContext);
+  const { isLogin } = useContext(AuthContext);
+  const { user, removeValidUser } = useContext(UserContext);
 
   // Test ----------------- State of the component ----------------------------------------------------
   // State for opening / closing the Settings Menu
@@ -188,8 +188,7 @@ const Navbar = () => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    logoutHandler();
-                    localStorage.removeItem("jwtAuthToken");
+                    removeValidUser();
                     navigate("/login");
                     handleCloseUserMenu();
                     toast.success("Logged Out Successfully");

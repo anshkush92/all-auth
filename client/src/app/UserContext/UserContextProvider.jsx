@@ -37,8 +37,37 @@ const UserContextProvider = ({ children }) => {
     }
   }, [token, loginHandler, logoutHandler]);
 
+  // For removing the Token as well as the cookie associated with the token
+  const removeValidUser = async () => {
+    // When clicking on the Logout button then Run this function
+    // Gives the token to the backend, to remove it aas well as the cookie
+    const response = await fetch("/logout", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        Accept: "application/json",
+      },
+      credentials: "include",
+    });
+
+    // Awaiting for the response from server which will be the user
+    const data = await response.json();
+
+    // Logging the response from the server
+    console.log(data);
+
+    // Changing the state of the isLogin to false
+    logoutHandler();
+
+    // Checking whether we got the user or not and accordingly removing the Local Storage Auth Token
+    if (data !== undefined) {
+      localStorage.removeItem("jwtAuthToken");
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ user, checkValidUser }}>
+    <UserContext.Provider value={{ user, checkValidUser, removeValidUser }}>
       {children}
     </UserContext.Provider>
   );

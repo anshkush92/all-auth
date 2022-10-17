@@ -9,6 +9,9 @@ const bcrypt = require("bcryptjs");
 // Importing the cookie parser
 const cookieParser = require("cookie-parser");
 
+// Importing the Middleware for authentication
+const authenticateUserMiddleware = require("../middlewares/autheticateUser.middleware");
+
 // Creating the API for the User ------> Sign Up and Login
 
 // Test --------------------- Sign up form Data -----------------------------
@@ -105,6 +108,32 @@ userRouter.post("/login", async (req, res) => {
         console.log("Catch block error", error);
     }
 })
+
+// Test ---------------------- GET /logout to remove AuthToken and cookie ----------------
+userRouter.get("/logout", authenticateUserMiddleware, (req, res) => {
+    // First we need to check whether the usr is valid or not, if not valid, then why logout 
+    // To check the user is authentic or not we use the authenticate middleware
+    console.log("On /logout Route");
+
+    // We are getting the many things in return, so we will use that 
+    try {
+        // This token array will contain all the token, to tell user how many times he logged In
+        // Every time new token is generated, so will contain all token instead of the current token
+        req.user.tokens = req.user.tokens.filter((currentToken) => currentToken !== req.token)
+
+        // After this we have to remove the Cookie
+        res.clearCookie("authToken", { path: "/" });
+
+        // Saving the new token array into the database
+        req.user.save();
+
+        // Now passing the user data to the client
+        res.status(201).json({ user: req.user })
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({ message: "Logout Error occured !! Please Try Again ", error })
+    }
+});
 
 // Test ---------------------- Exporting all the routes ---------------------
 module.exports = userRouter;
