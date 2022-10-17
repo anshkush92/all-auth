@@ -153,8 +153,10 @@ const Navbar = () => {
                 ) : (
                   <Avatar
                     alt={user?.name || "Test"}
-                    // src="https://mui.com/static/images/avatar/2.jpg"
-                  ></Avatar>
+                    sx={{ backgroundColor: "black" }}
+                  >
+                    {user?.name.toUpperCase() || "Test"}
+                  </Avatar>
                 )}
               </IconButton>
             </Tooltip>
