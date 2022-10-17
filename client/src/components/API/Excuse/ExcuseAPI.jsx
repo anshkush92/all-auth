@@ -59,7 +59,7 @@ const ExcuseAPI = () => {
               <Typography variant="h6">Excuse : {excuse.excuse}</Typography>
             </Box>
           ))
-        : "No Data"}
+        : "No Data or User is Not Logged In"}
     </>
   );
 };
