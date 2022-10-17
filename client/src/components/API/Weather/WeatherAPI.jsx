@@ -1,6 +1,6 @@
 // Test -------------------------- Importing the Packages ---------------------------------
 import { useEffect, useState, useContext } from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 // Test -------------------------- Importing the styles / other components ----------------
 import UserContext from "../../../app/UserContext/User.context";
@@ -34,20 +34,41 @@ const WeatherAPI = () => {
 
   return (
     <>
-      {user !== undefined
-        ? weatherData.length
-          ? weatherData?.map((weather, index) => (
-              <Box key={index}>
-                <Typography variant="h6">
-                  Category : {weather.category}
-                </Typography>
-                <Typography variant="h6">
-                  Weather : {weather.weather}
-                </Typography>
-              </Box>
-            ))
-          : "Fetching Data from API ...."
-        : "User is Not Logged In"}
+      {user !== undefined ? (
+        weatherData.length !== 0 ? (
+          <>
+            <Typography variant="h6">
+              Country: {weatherData.location?.country}
+            </Typography>
+
+            <Typography variant="h6">
+              Location: {weatherData.location?.name}
+            </Typography>
+
+            <Typography variant="body1">
+              Wind: {weatherData.current?.gust_kph} KPH or{" "}
+              {weatherData.current.gust_mph} MPH
+            </Typography>
+
+            <Typography variant="body1">
+              Humidity: {weatherData.current?.humidity} %
+            </Typography>
+
+            <Typography variant="body1">
+              Temperature: {weatherData.current?.temp_c} Celsius or{" "}
+              {weatherData.current.temp_f} Fahrenheit
+            </Typography>
+
+            <Typography variant="body1">
+              UV: {weatherData.current?.uv} %
+            </Typography>
+          </>
+        ) : (
+          "Fetching Data from API ...."
+        )
+      ) : (
+        "User is Not Logged In"
+      )}
     </>
   );
 };
