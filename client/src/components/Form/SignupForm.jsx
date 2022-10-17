@@ -4,13 +4,11 @@ import {
   Box,
   Typography,
   Grid,
-  Button,
   Card,
   CardContent,
   Divider,
   InputLabel,
   TextField,
-  CircularProgress,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -18,7 +16,12 @@ import { toast } from "react-toastify";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
 // Test -------------------------- Importing the styles / other components ----------------
+import HoverLinkTypography from "./Shared/HoverLinkTypography";
+import SubmitButton from "./Shared/SubmitButton";
+import SocialButton from "./Shared/SocialButton";
+import LoadingBar from "./Shared/LoadingBar";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -33,57 +36,33 @@ const userState = {
 const userStateReducer = (state, action) => {
   if (action.type === "SHOW-PASSWORD") {
     return {
-      username: state.username,
+      ...state,
       showPassword: !state.showPassword,
-      showConfirmPassword: state.showConfirmPassword,
-      enteredEmail: state.enteredEmail,
-      enteredPassword: state.enteredPassword,
-      confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "SHOW-CONFIRM-PASSWORD") {
     return {
-      username: state.username,
-      showPassword: state.showPassword,
+      ...state,
       showConfirmPassword: !state.showConfirmPassword,
-      enteredEmail: state.enteredEmail,
-      enteredPassword: state.enteredPassword,
-      confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "ENTERED-EMAIL") {
     return {
-      username: state.username,
-      showPassword: state.showPassword,
-      showConfirmPassword: state.showConfirmPassword,
+      ...state,
       enteredEmail: action.Email.trim(),
-      enteredPassword: state.enteredPassword,
-      confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "ENTERED-PASSWORD") {
     return {
-      username: state.username,
-      showPassword: state.showPassword,
-      showConfirmPassword: state.showConfirmPassword,
-      enteredEmail: state.enteredEmail,
+      ...state,
       enteredPassword: action.password.trim(),
-      confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "CONFIRM-PASSWORD") {
     return {
-      username: state.username,
-      showPassword: state.showPassword,
-      showConfirmPassword: state.showConfirmPassword,
-      enteredEmail: state.enteredEmail,
-      enteredPassword: state.enteredPassword,
+      ...state,
       confirmPassword: action.confirmPassword.trim(),
     };
   } else if (action.type === "ENTERED-USERNAME") {
     return {
+      ...state,
       username: action.username.trim(),
-      showPassword: state.showPassword,
-      showConfirmPassword: state.showConfirmPassword,
-      enteredEmail: state.enteredEmail,
-      enteredPassword: state.enteredPassword,
-      confirmPassword: state.confirmPassword,
     };
   } else if (action.type === "CLEAR-FORM") {
     console.log("Clearform");
@@ -106,6 +85,7 @@ const validateEmail = (email) => {
 };
 
 // Test -------------------------- The current component ----------------------------------
+const SocialButtonData = ["Google", "Facebook", "Twitter", "Github"];
 const SignupForm = () => {
   // For the userState in the App
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
@@ -169,18 +149,7 @@ const SignupForm = () => {
 
   return (
     <>
-      {isLoading && (
-        <CircularProgress
-          size="50px"
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            zIndex: "1000",
-          }}
-        ></CircularProgress>
-      )}
+      {isLoading && <LoadingBar></LoadingBar>}
       {!isLoading && (
         <Card
           sx={{
@@ -212,78 +181,11 @@ const SignupForm = () => {
             {/* The Grid container which contains the Social Media Login Buttons*/}
             <Box mt={2} mb={2}>
               <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Google
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Facebook
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Twitter
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Github
-                  </Button>
-                </Grid>
+                {SocialButtonData.map((data, index) => (
+                  <Grid item xs={6} key={index}>
+                    <SocialButton>{data}</SocialButton>
+                  </Grid>
+                ))}
               </Grid>
             </Box>
 
@@ -406,17 +308,9 @@ const SignupForm = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "#2b2828",
-                      "&:hover": { backgroundColor: "#161616" },
-                    }}
-                    fullWidth
-                    onClick={isFormValidHandler}
-                  >
+                  <SubmitButton onClick={isFormValidHandler}>
                     Sign Up
-                  </Button>
+                  </SubmitButton>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -429,20 +323,9 @@ const SignupForm = () => {
                     }}
                   >
                     <Typography>Already have an account ?</Typography>
-                    <Typography
-                      onClick={() => {
-                        navigate("/login");
-                      }}
-                      sx={{
-                        "&:hover": {
-                          color: "blue",
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                        },
-                      }}
-                    >
+                    <HoverLinkTypography link="/login">
                       Login
-                    </Typography>
+                    </HoverLinkTypography>
                   </Box>
                 </Grid>
               </Grid>
