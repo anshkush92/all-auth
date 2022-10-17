@@ -1,5 +1,4 @@
 // Test -------------------------- Importing the Packages ---------------------------------
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 
@@ -8,7 +7,6 @@ import { Box, Typography } from "@mui/material";
 // Test -------------------------- The current component ----------------------------------
 const ExcuseAPI = () => {
   const [excuseData, setExcuseData] = useState([]);
-  const navigate = useNavigate();
 
   // Checks whether the user is authenticated or not using the backend
   const isAuthenticatedUser = async () => {
@@ -25,8 +23,19 @@ const ExcuseAPI = () => {
 
     // Getting the data from response in JS Object
     const data = await response.json();
-
     console.log(data);
+
+    // Fetch the Data from the API if there is no ERROR object in the Response
+    if (data.error === undefined) {
+      const excuseAPIResponse = await fetch(
+        "https://excuser.herokuapp.com/v1/excuse"
+      );
+      const excuseAPIData = await excuseAPIResponse.json();
+      console.log(excuseAPIData);
+      setExcuseData(excuseAPIData);
+    } else {
+      console.log(data);
+    }
   };
 
   // The authentication should be done on the backend not on the frontend so using the Authorization Header
@@ -36,16 +45,6 @@ const ExcuseAPI = () => {
       .then(console.log("Ran isAuthenticatedUser function"))
       .catch(console.error);
 
-    const fetchExcuseAPI = async () => {
-      const data = await fetch("https://excuser.herokuapp.com/v1/excuse");
-      const response = await data.json();
-      console.log(response);
-      setExcuseData(response);
-    };
-
-    // Asyncrhously catching any error
-    fetchExcuseAPI().catch(console.error);
-
     return () => {
       console.log("Cleanup function from Excuse API.jsx");
     };
@@ -53,14 +52,14 @@ const ExcuseAPI = () => {
 
   return (
     <>
-      {localStorage.getItem("jwtAuthToken")
+      {excuseData.length
         ? excuseData?.map((excuse, index) => (
             <Box key={index}>
               <Typography variant="h6">Category : {excuse.category}</Typography>
               <Typography variant="h6">Excuse : {excuse.excuse}</Typography>
             </Box>
           ))
-        : navigate("/login")}
+        : "No Data"}
     </>
   );
 };
