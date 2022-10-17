@@ -1,19 +1,16 @@
 // Test -------------------------- Importing the Packages ---------------------------------
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 // Test -------------------------- Importing the styles / other components ----------------
 import UserContext from "./User.context";
 
 // Test -------------------------- The current component ----------------------------------
-const UserContextProvider = () => {
+const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(undefined);
 
-  // Async functions returns Promise <pending> resolved using callback function
-
   // For checking whether the JWT Token in Local Storage corresponds to any user or not
-  const checkValidUser = async () => {
-    const token = localStorage.getItem("jwtAuthToken");
-
+  // Making sure that it only runs when the dependencies changes
+  const checkValidUser = useCallback(async (token) => {
     // Sends the request to the /user to check whether the user is authenticated in or not
     const response = await fetch("/user", {
       method: "GET",
@@ -33,11 +30,11 @@ const UserContextProvider = () => {
     } else {
       setUser(undefined);
     }
-  };
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, checkValidUser }}>
-      UserContextProvider
+      {children}
     </UserContext.Provider>
   );
 };
