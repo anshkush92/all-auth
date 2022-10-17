@@ -13,6 +13,7 @@ const authenticateUser = async (req, res, next) => {
         const token = req.headers.authorization;
 
         // On verifying the JWT Token, we will get the "Payload" which we used to create the token
+        // On getting the error moves to the Catch block thats why getting unauthoized access in dev tools 
         const verifyJwtToken = jwt.verify(token, jwtSecretKey);
 
         // On getting the "Payload", now we will "check", whether this "certain id" exsists or not in DB or not
@@ -22,7 +23,7 @@ const authenticateUser = async (req, res, next) => {
         console.log("User credentials: ", isValidUser);
 
         if (!isValidUser) {
-            throw new Error("User not found");
+            throw new Error("Not a Valid user");
         }
 
         // Setting these values, when we have got the user 
@@ -32,7 +33,7 @@ const authenticateUser = async (req, res, next) => {
 
     } catch (error) {
         console.log(error);
-        res.status(401).json({ message: "Unauthorized Access" });
+        res.status(401).json({ message: "Unauthorized Access", error });
     }
 
     console.log("In Authenticate User Middleware");
