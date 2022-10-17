@@ -1,5 +1,7 @@
 import "./App.css";
 
+import { useContext, useEffect } from "react";
+
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 
@@ -13,7 +15,16 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
 
+import UserContext from "./app/UserContext/User.context";
+
 const App = () => {
+  const { checkValidUser } = useContext(UserContext);
+  const token = localStorage.getItem("jwtAuthToken");
+
+  useEffect(() => {
+    checkValidUser();
+  }, [checkValidUser, token]);
+
   return (
     <Box>
       <Routes>

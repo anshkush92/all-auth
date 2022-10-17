@@ -26,6 +26,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 // Test -------------------------- Importing the styles / other components ----------------
 import AuthContext from "../../app/AuthContext/AuthContext";
+import UserContext from "../../app/UserContext/User.context";
 
 // Test -------------------------- The current component ----------------------------------
 const Pages = ["News", "Weather", "Excuses"];
@@ -37,6 +38,7 @@ const Navbar = () => {
 
   // Test ----------------- For using the global State ----------------------------------------------
   const { isLogin, logoutHandler } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
 
   // Test ----------------- State of the component ----------------------------------------------------
   // State for opening / closing the Settings Menu
@@ -66,7 +68,7 @@ const Navbar = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsImageLoading(false);
-    }, 3000);
+    }, 2000);
   }, []);
   // Test ------------------ The Actual Component --------------------------------------------------------
   return (
@@ -150,8 +152,8 @@ const Navbar = () => {
                   </Skeleton>
                 ) : (
                   <Avatar
-                    alt="Ansh Singh"
-                    src="https://mui.com/static/images/avatar/2.jpg"
+                    alt={user?.name || "Test"}
+                    // src="https://mui.com/static/images/avatar/2.jpg"
                   ></Avatar>
                 )}
               </IconButton>
