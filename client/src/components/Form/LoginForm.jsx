@@ -1,26 +1,27 @@
 // Test -------------------------- Importing the Packages ---------------------------------
-import { useReducer, useContext, useState } from "react";
+import { useReducer, useContext } from "react";
 import {
   Box,
   Typography,
   Grid,
-  Button,
   Card,
   CardContent,
   Divider,
-  InputLabel,
-  TextField,
-  CircularProgress,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import AuthContext from "../../app/AuthContext/AuthContext";
-
 // Test -------------------------- Importing the styles / other components ----------------
+import useLoading from "../../hooks/useLoading";
+import AuthContext from "../../app/AuthContext/AuthContext";
+import HoverLinkTypography from "./Shared/HoverLinkTypography";
+import SubmitButton from "./Shared/SubmitButton";
+import SocialButton from "./Shared/SocialButton";
+import LoadingBar from "./Shared/LoadingBar";
+import HeadingContent from "./Shared/HeadingContent";
+import Common from "./Shared/TextField/Common";
+import Password from "./Shared/TextField/Password";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -32,43 +33,56 @@ const userState = {
 const userStateReducer = (state, action) => {
   if (action.type === "SHOW-PASSWORD") {
     return {
+      ...state,
       showPassword: !state.showPassword,
-      enteredEmail: state.enteredEmail,
-      enteredPassword: state.enteredPassword,
     };
   } else if (action.type === "ENTERED-EMAIL") {
     return {
-      showPassword: state.showPassword,
+      ...state,
       enteredEmail: action.email.trim(),
-      enteredPassword: state.enteredPassword,
     };
   } else if (action.type === "ENTERED-PASSWORD") {
     return {
-      showPassword: state.showPassword,
-      enteredEmail: state.enteredEmail,
+      ...state,
       enteredPassword: action.password.trim(),
     };
   } else if (action.type === "CLEAR-FORM") {
-    return {
-      showPassword: false,
-      enteredEmail: "",
-      enteredPassword: "",
-    };
+    return userState;
   }
 };
 
 // Test -------------------------- The current component ----------------------------------
+const SocialButtonData = ["Google", "Facebook", "Twitter", "Github"];
+
 const LoginForm = () => {
   // Test ----------------- States in the Component -------------------------
   // For the userState in the App
   const { loginHandler } = useContext(AuthContext);
+
+  // Using the custom Hook to write the logic for the loader instead of using the useState
+  const { isLoading, setIsLoading } = useLoading();
+
+  // For state changes in the Web App using the useReducer
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
-  const [isLoading, setIsLoading] = useState(false);
-  const { enteredEmail, enteredPassword } = currentUserState;
+
+  // Destructing the state of the currentUserState
+  const { showPassword, enteredEmail, enteredPassword } = currentUserState;
+
   // Hook for imperative navigation for the routes
   const navigate = useNavigate();
 
   // Test -------------------- State Changing Function ----------------------
+  const getEnteredPassword = (event) => {
+    dispatch({
+      type: "ENTERED-PASSWORD",
+      password: event.target.value,
+    });
+  };
+
+  const toggleShowPassword = () => {
+    dispatch({ type: "SHOW-PASSWORD" });
+  };
+
   const isFormValidHandler = async () => {
     if (enteredEmail === "" || enteredPassword === "") {
       toast.error("Please Enter all details");
@@ -119,18 +133,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {isLoading && (
-        <CircularProgress
-          size="50px"
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            zIndex: "1000",
-          }}
-        ></CircularProgress>
-      )}
+      {isLoading && <LoadingBar></LoadingBar>}
       {!isLoading && (
         <Card
           sx={{
@@ -143,97 +146,20 @@ const LoginForm = () => {
         >
           <CardContent>
             {/* Heading and the subheading for the Card Box */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="h6" fontWeight="700">
-                Login
-              </Typography>
-              <Typography variant="body2">
+            <Box>
+              <HeadingContent heading="Login">
                 Enter your credentials to access your account
-              </Typography>
+              </HeadingContent>
             </Box>
 
             {/* The Grid container which contains the Social Media Login Buttons*/}
             <Box mt={2} mb={2}>
               <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Google
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Facebook
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Twitter
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      minWidth: { xs: "80px", sm: "105px" },
-                      backgroundColor: "#299693",
-                      color: "white",
-                      borderColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#65aeac",
-                        borderColor: "transparent",
-                      },
-                    }}
-                  >
-                    Github
-                  </Button>
-                </Grid>
+                {SocialButtonData.map((data, index) => (
+                  <Grid item xs={6} key={index}>
+                    <SocialButton>{data}</SocialButton>
+                  </Grid>
+                ))}
               </Grid>
             </Box>
 
@@ -244,57 +170,27 @@ const LoginForm = () => {
             <Box mt={2}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <InputLabel shrink htmlFor="email">
-                    Email
-                  </InputLabel>
-                  <TextField
+                  <Common
                     id="email"
-                    size="small"
                     value={enteredEmail}
-                    fullWidth
-                    placeholder="Enter email"
                     onChange={(event) => {
                       dispatch({
                         type: "ENTERED-EMAIL",
                         email: event.target.value,
                       });
                     }}
-                  ></TextField>
+                  ></Common>
                 </Grid>
 
                 <Grid item xs={12}>
-                  <InputLabel shrink htmlFor="password">
-                    Password
-                  </InputLabel>
-                  <TextField
+                  <Password
                     id="password"
-                    size="small"
                     value={enteredPassword}
-                    fullWidth
-                    placeholder="Enter password"
-                    type={`${
-                      currentUserState.showPassword ? "text" : "password"
-                    }`}
-                    onChange={(event) => {
-                      dispatch({
-                        type: "ENTERED-PASSWORD",
-                        password: event.target.value,
-                      });
-                    }}
-                    InputProps={{
-                      endAdornment: currentUserState.showPassword ? (
-                        <VisibilityIcon
-                          onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityIcon>
-                      ) : (
-                        <VisibilityOffIcon
-                          onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityOffIcon>
-                      ),
-                    }}
-                  ></TextField>
+                    onChange={getEnteredPassword}
+                    visibilityStatus={showPassword}
+                    onClick={toggleShowPassword}
+                  ></Password>
+
                   <Box
                     sx={{
                       display: "flex",
@@ -302,33 +198,19 @@ const LoginForm = () => {
                       mt: "6px",
                     }}
                   >
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        "&:hover": {
-                          color: "blue",
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                        },
-                      }}
+                    <HoverLinkTypography
+                      link="#forget-password"
+                      variant="body2"
                     >
                       Forget Password ?
-                    </Typography>
+                    </HoverLinkTypography>
                   </Box>
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "#2b2828",
-                      "&:hover": { backgroundColor: "#161616" },
-                    }}
-                    fullWidth
-                    onClick={isFormValidHandler}
-                  >
+                  <SubmitButton onClick={isFormValidHandler}>
                     Login
-                  </Button>
+                  </SubmitButton>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -341,20 +223,9 @@ const LoginForm = () => {
                     }}
                   >
                     <Typography>Don't have a account ?</Typography>
-                    <Typography
-                      onClick={() => {
-                        navigate("/signup");
-                      }}
-                      sx={{
-                        "&:hover": {
-                          color: "blue",
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                        },
-                      }}
-                    >
+                    <HoverLinkTypography link="/signup">
                       Sign Up
-                    </Typography>
+                    </HoverLinkTypography>
                   </Box>
                 </Grid>
               </Grid>
