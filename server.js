@@ -35,7 +35,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Using the routes defined for different paths
-app.use(commonRouter);
 app.use(userRouter);
 app.use(authenticateUserRouter);
 
@@ -45,7 +44,9 @@ const PORT = process.env.PORT || 8000;
 
 // Test -------------------------- Deployment Instructions --------------------
 if (process.env.NODE_ENV === "production") {
-    app.use("client/build")
+    app.use(express.static("client/build"));
+} else {
+    app.use(commonRouter);
 }
 
 
