@@ -7,15 +7,10 @@ import {
   Card,
   CardContent,
   Divider,
-  InputLabel,
-  TextField,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Test -------------------------- Importing the styles / other components ----------------
 import useLoading from "../../hooks/useLoading";
@@ -26,6 +21,7 @@ import SocialButton from "./Shared/SocialButton";
 import LoadingBar from "./Shared/LoadingBar";
 import HeadingContent from "./Shared/HeadingContent";
 import Common from "./Shared/TextField/Common";
+import Password from "./Shared/TextField/Password";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -66,9 +62,12 @@ const LoginForm = () => {
   // Using the custom Hook to write the logic for the loader instead of using the useState
   const { isLoading, setIsLoading } = useLoading();
 
+  // For state changes in the Web App using the useReducer
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
-  // const [isLoading, setIsLoading] = useState(false);
-  const { enteredEmail, enteredPassword } = currentUserState;
+
+  // Destructing the state of the currentUserState
+  const { showPassword, enteredEmail, enteredPassword } = currentUserState;
+
   // Hook for imperative navigation for the routes
   const navigate = useNavigate();
 
@@ -184,33 +183,14 @@ const LoginForm = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <InputLabel shrink htmlFor="password">
-                    Password
-                  </InputLabel>
-                  <TextField
+                  <Password
                     id="password"
-                    size="small"
                     value={enteredPassword}
-                    fullWidth
-                    placeholder="Enter password"
-                    type={`${
-                      currentUserState.showPassword ? "text" : "password"
-                    }`}
                     onChange={getEnteredPassword}
-                    InputProps={{
-                      endAdornment: currentUserState.showPassword ? (
-                        <VisibilityIcon
-                          onClick={toggleShowPassword}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityIcon>
-                      ) : (
-                        <VisibilityOffIcon
-                          onClick={toggleShowPassword}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityOffIcon>
-                      ),
-                    }}
-                  ></TextField>
+                    visibilityStatus={showPassword}
+                    onClick={toggleShowPassword}
+                  ></Password>
+
                   <Box
                     sx={{
                       display: "flex",
