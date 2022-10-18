@@ -1,5 +1,5 @@
 // Test -------------------------- Importing the Packages ---------------------------------
-import { useReducer, useContext, useState } from "react";
+import { useReducer, useContext } from "react";
 import {
   Box,
   Typography,
@@ -16,14 +16,15 @@ import { toast } from "react-toastify";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+// Test -------------------------- Importing the styles / other components ----------------
+import useLoading from "../../hooks/useLoading";
 import AuthContext from "../../app/AuthContext/AuthContext";
 import HoverLinkTypography from "./Shared/HoverLinkTypography";
 import SubmitButton from "./Shared/SubmitButton";
 import SocialButton from "./Shared/SocialButton";
 import LoadingBar from "./Shared/LoadingBar";
 import HeadingContent from "./Shared/HeadingContent";
-
-// Test -------------------------- Importing the styles / other components ----------------
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -64,8 +65,12 @@ const LoginForm = () => {
   // Test ----------------- States in the Component -------------------------
   // For the userState in the App
   const { loginHandler } = useContext(AuthContext);
+
+  // Using the custom Hook to write the logic for the loader instead of using the useState
+  const { isLoading, setIsLoading } = useLoading();
+
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const { enteredEmail, enteredPassword } = currentUserState;
   // Hook for imperative navigation for the routes
   const navigate = useNavigate();

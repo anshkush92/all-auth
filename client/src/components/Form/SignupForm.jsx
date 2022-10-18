@@ -1,5 +1,5 @@
 // Test -------------------------- Importing the Packages ---------------------------------
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import {
   Box,
   Typography,
@@ -18,6 +18,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Test -------------------------- Importing the styles / other components ----------------
+import useLoading from "../../hooks/useLoading";
 import HoverLinkTypography from "./Shared/HoverLinkTypography";
 import SubmitButton from "./Shared/SubmitButton";
 import SocialButton from "./Shared/SocialButton";
@@ -88,9 +89,11 @@ const validateEmail = (email) => {
 // Test -------------------------- The current component ----------------------------------
 const SocialButtonData = ["Google", "Facebook", "Twitter", "Github"];
 const SignupForm = () => {
+  // Using the custom Hook to set the loading state on the form submission
+  const { isLoading, setIsLoading } = useLoading();
+
   // For the userState in the App
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
-  const [isLoading, setIsLoading] = useState(false);
 
   const { username, enteredEmail, enteredPassword, confirmPassword } =
     currentUserState;
