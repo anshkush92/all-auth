@@ -7,15 +7,10 @@ import {
   Card,
   CardContent,
   Divider,
-  InputLabel,
-  TextField,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 // Test -------------------------- Importing the styles / other components ----------------
 import useLoading from "../../hooks/useLoading";
@@ -25,6 +20,7 @@ import SocialButton from "./Shared/SocialButton";
 import LoadingBar from "./Shared/LoadingBar";
 import HeadingContent from "./Shared/HeadingContent";
 import Common from "./Shared/TextField/Common";
+import Password from "./Shared/TextField/Password";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -238,59 +234,23 @@ const SignupForm = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <InputLabel shrink htmlFor="password">
-                    Password
-                  </InputLabel>
-                  <TextField
+                  <Password
                     id="password"
-                    size="small"
                     value={enteredPassword}
-                    fullWidth
-                    placeholder="Enter password"
-                    type={`${showPassword ? "text" : "password"}`}
+                    visibilityStatus={showPassword}
                     onChange={getEnteredPassword}
-                    InputProps={{
-                      endAdornment: showPassword ? (
-                        <VisibilityIcon
-                          onClick={toggleShowPassword}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityIcon>
-                      ) : (
-                        <VisibilityOffIcon
-                          onClick={toggleShowPassword}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityOffIcon>
-                      ),
-                    }}
-                  ></TextField>
+                    onClick={toggleShowPassword}
+                  ></Password>
                 </Grid>
 
                 <Grid item xs={12}>
-                  <InputLabel shrink htmlFor="confirm-password">
-                    Confirm Password
-                  </InputLabel>
-                  <TextField
-                    id="confirm-password"
-                    size="small"
+                  <Password
+                    id="confirm password"
                     value={confirmPassword}
-                    fullWidth
-                    placeholder="Confirm your password"
-                    type={`${showConfirmPassword ? "text" : "password"}`}
+                    visibilityStatus={showConfirmPassword}
                     onChange={getEnteredConfirmPassword}
-                    InputProps={{
-                      endAdornment: showConfirmPassword ? (
-                        <VisibilityIcon
-                          onClick={toggleShowConfirmPassword}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityIcon>
-                      ) : (
-                        <VisibilityOffIcon
-                          onClick={toggleShowConfirmPassword}
-                          sx={{ "&:hover": { cursor: "pointer" } }}
-                        ></VisibilityOffIcon>
-                      ),
-                    }}
-                  ></TextField>
+                    onClick={toggleShowConfirmPassword}
+                  ></Password>
                 </Grid>
 
                 <Grid item xs={12}>
