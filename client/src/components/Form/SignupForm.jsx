@@ -68,14 +68,7 @@ const userStateReducer = (state, action) => {
     };
   } else if (action.type === "CLEAR-FORM") {
     console.log("Clearform");
-    return {
-      username: "",
-      showPassword: false,
-      showConfirmPassword: false,
-      enteredEmail: "",
-      enteredPassword: "",
-      confirmPassword: "",
-    };
+    return userState;
   }
 };
 

@@ -50,11 +50,7 @@ const userStateReducer = (state, action) => {
       enteredPassword: action.password.trim(),
     };
   } else if (action.type === "CLEAR-FORM") {
-    return {
-      showPassword: false,
-      enteredEmail: "",
-      enteredPassword: "",
-    };
+    return userState;
   }
 };
 
