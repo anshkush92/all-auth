@@ -43,6 +43,12 @@ app.use(authenticateUserRouter);
 // Defining the PORT on which our server will be running
 const PORT = 8000 || process.env.PORT;
 
+// Test -------------------------- Deployment Instructions --------------------
+if (process.env.NODE_ENV === "production") {
+    app.use("client/build")
+}
+
+
 // Starts the server on the given PORT ----> MOST IMP LINE
 app.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`)
