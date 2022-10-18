@@ -73,6 +73,17 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   // Test -------------------- State Changing Function ----------------------
+  const getEnteredPassword = (event) => {
+    dispatch({
+      type: "ENTERED-PASSWORD",
+      password: event.target.value,
+    });
+  };
+
+  const toggleShowPassword = () => {
+    dispatch({ type: "SHOW-PASSWORD" });
+  };
+
   const isFormValidHandler = async () => {
     if (enteredEmail === "" || enteredPassword === "") {
       toast.error("Please Enter all details");
@@ -185,21 +196,16 @@ const LoginForm = () => {
                     type={`${
                       currentUserState.showPassword ? "text" : "password"
                     }`}
-                    onChange={(event) => {
-                      dispatch({
-                        type: "ENTERED-PASSWORD",
-                        password: event.target.value,
-                      });
-                    }}
+                    onChange={getEnteredPassword}
                     InputProps={{
                       endAdornment: currentUserState.showPassword ? (
                         <VisibilityIcon
-                          onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                          onClick={toggleShowPassword}
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         ></VisibilityIcon>
                       ) : (
                         <VisibilityOffIcon
-                          onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                          onClick={toggleShowPassword}
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         ></VisibilityOffIcon>
                       ),
