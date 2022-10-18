@@ -20,7 +20,7 @@ userRouter.post("/signup", async (req, res) => {
     const { username: name, enteredEmail, enteredPassword, confirmPassword } = req.body;
 
     if (!name || !enteredEmail || !enteredPassword || !confirmPassword) {
-        res.status(422).json({ error: "Please fill all the details" });
+        return res.status(422).json({ error: "Please fill all the details" });
     }
 
     try {
@@ -28,9 +28,9 @@ userRouter.post("/signup", async (req, res) => {
         const exsistingUser = await userModel.findOne({ email: enteredEmail });
 
         if (exsistingUser) {
-            res.status(422).json({ error: "Email already exsists" });
+            return res.status(422).json({ error: "Email already exsists" });
         } else if (enteredPassword !== confirmPassword) {
-            res.status(422).json({ error: "Password doesn't match" });
+            return res.status(422).json({ error: "Password doesn't match" });
         } else {
             const newUser = await new userModel({
                 name,
@@ -42,15 +42,15 @@ userRouter.post("/signup", async (req, res) => {
 
             const finalUser = await newUser.save();
             console.log("Saving the newUser", finalUser);
-            res.status(200).json(finalUser);
+            return res.status(200).json(finalUser);
         }
 
     } catch (error) {
-        res.status(422).json({ message: "Catch block error", error });
         console.log("Catch block error", error);
+        return res.status(422).json({ message: "Catch block error", error });
     }
 
-    // res.status(200).send(req.body);
+    //return res.status(200).send(req.body);
 })
 
 // Test --------------------- Login form data -------------------------------
@@ -59,7 +59,7 @@ userRouter.post("/login", async (req, res) => {
     const { enteredEmail, enteredPassword } = req.body;
 
     if (!enteredEmail || !enteredPassword) {
-        res.status(422).json({ error: "Please fill all the details" });
+        return res.status(422).json({ error: "Please fill all the details" });
     }
 
     try {
@@ -91,21 +91,21 @@ userRouter.post("/login", async (req, res) => {
                 }
 
                 console.log("Result of /login", result);
-                res.status(200).json({ message: "User found", result });
+                return res.status(200).json({ message: "User found", result });
             } else {
                 console.log("Email or password is wrong");
-                res.status(422).json({ error: "Email or password is wrong" });
+                return res.status(422).json({ error: "Email or password is wrong" });
             }
 
         } else {
             console.log("User doesn't exsists");
-            res.status(422).json({ error: "User does not exsist" });
+            return res.status(422).json({ error: "User does not exsist" });
         }
 
     } catch (error) {
         // Converts JS object into JSON
-        res.status(422).json({ message: "Catch block error", error });
         console.log("Catch block error", error);
+        return res.status(422).json({ message: "Catch block error", error });
     }
 })
 
@@ -128,10 +128,10 @@ userRouter.get("/logout", authenticateUserMiddleware, (req, res) => {
         req.user.save();
 
         // Now passing the user data to the client
-        res.status(201).json({ user: req.user })
+        return res.status(201).json({ user: req.user })
     } catch (error) {
         console.log(error);
-        res.status(401).json({ message: "Logout Error occured !! Please Try Again ", error })
+        return res.status(401).json({ message: "Logout Error occured !! Please Try Again ", error })
     }
 });
 

@@ -15,13 +15,13 @@ authenticateUserRouter.get("/user", authenticateUserMiddleware, async (req, res)
         console.log("Is Valid User ?", isValidUser);
 
         if (isValidUser) {
-            res.status(200).json({ message: "The user is Valid", user: isValidUser });
+            return res.status(200).json({ message: "The user is Valid", user: isValidUser });
         } else {
-            res.status(401).json({ message: "The user is not Valid", user: isValidUser });
+            return res.status(401).json({ message: "The user is not Valid", user: isValidUser });
         }
     } catch (error) {
-        res.status(401).json({ message: "Error", error })
         console.log(error);
+        return res.status(401).json({ message: "Error", error })
     }
 });
 
