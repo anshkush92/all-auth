@@ -24,6 +24,7 @@ import SubmitButton from "./Shared/SubmitButton";
 import SocialButton from "./Shared/SocialButton";
 import LoadingBar from "./Shared/LoadingBar";
 import HeadingContent from "./Shared/HeadingContent";
+import Common from "./Shared/TextField/Common";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -183,41 +184,29 @@ const SignupForm = () => {
             <Box mt={2}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <InputLabel shrink htmlFor="username">
-                    Username
-                  </InputLabel>
-                  <TextField
+                  <Common
                     id="username"
-                    size="small"
-                    fullWidth
                     value={username}
-                    placeholder="Enter username"
                     onChange={(event) => {
                       dispatch({
                         type: "ENTERED-USERNAME",
                         username: event.target.value,
                       });
                     }}
-                  ></TextField>
+                  ></Common>
                 </Grid>
 
                 <Grid item xs={6}>
-                  <InputLabel shrink htmlFor="Email">
-                    Email
-                  </InputLabel>
-                  <TextField
-                    id="Email"
-                    size="small"
+                  <Common
+                    id="email"
                     value={enteredEmail}
-                    fullWidth
-                    placeholder="Enter Email"
                     onChange={(event) => {
                       dispatch({
                         type: "ENTERED-EMAIL",
                         Email: event.target.value,
                       });
                     }}
-                  ></TextField>
+                  ></Common>
                 </Grid>
 
                 <Grid item xs={12}>

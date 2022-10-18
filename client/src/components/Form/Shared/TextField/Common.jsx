@@ -4,14 +4,15 @@ import { Box, InputLabel, TextField } from "@mui/material";
 // Test -------------------------- Importing the styles / other components ----------------
 
 // Test -------------------------- The current component ----------------------------------
-const Email = (props) => {
+// A small fullWidth TextField for having the Email
+const Common = (props) => {
   const { id } = props;
   console.log({ ...props });
 
   return (
     <Box>
       <InputLabel shrink htmlFor={id}>
-        Email
+        {id.charAt(0).toUpperCase() + id.slice(1)}
       </InputLabel>
       <TextField
         {...props}
@@ -24,4 +25,4 @@ const Email = (props) => {
 };
 
 // Test -------------------------- Exporting the current component ------------------------
-export default Email;
+export default Common;
