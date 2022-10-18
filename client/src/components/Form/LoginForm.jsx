@@ -25,6 +25,7 @@ import SubmitButton from "./Shared/SubmitButton";
 import SocialButton from "./Shared/SocialButton";
 import LoadingBar from "./Shared/LoadingBar";
 import HeadingContent from "./Shared/HeadingContent";
+import Email from "./Shared/TextField/Email";
 
 // Test -------------------------- Reducer Functions of the Component ---------------------
 const userState = {
@@ -159,22 +160,16 @@ const LoginForm = () => {
             <Box mt={2}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <InputLabel shrink htmlFor="email">
-                    Email
-                  </InputLabel>
-                  <TextField
+                  <Email
                     id="email"
-                    size="small"
                     value={enteredEmail}
-                    fullWidth
-                    placeholder="Enter email"
                     onChange={(event) => {
                       dispatch({
                         type: "ENTERED-EMAIL",
                         email: event.target.value,
                       });
                     }}
-                  ></TextField>
+                  ></Email>
                 </Grid>
 
                 <Grid item xs={12}>
