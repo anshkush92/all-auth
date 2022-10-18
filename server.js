@@ -41,7 +41,7 @@ app.use(authenticateUserRouter);
 
 // Test --------------------------- Running the server ------------------------
 // Defining the PORT on which our server will be running
-const PORT = 8000 || process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 // Test -------------------------- Deployment Instructions --------------------
 if (process.env.NODE_ENV === "production") {
