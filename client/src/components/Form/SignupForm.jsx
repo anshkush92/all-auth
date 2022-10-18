@@ -89,12 +89,40 @@ const SignupForm = () => {
   // For the userState in the App
   const [currentUserState, dispatch] = useReducer(userStateReducer, userState);
 
-  const { username, enteredEmail, enteredPassword, confirmPassword } =
-    currentUserState;
+  const {
+    showPassword,
+    showConfirmPassword,
+    username,
+    enteredEmail,
+    enteredPassword,
+    confirmPassword,
+  } = currentUserState;
 
   const navigate = useNavigate();
 
   // Test ----------------- Form validation logic ------------
+  const getEnteredPassword = (event) => {
+    dispatch({
+      type: "ENTERED-PASSWORD",
+      password: event.target.value,
+    });
+  };
+
+  const toggleShowPassword = () => {
+    dispatch({ type: "SHOW-PASSWORD" });
+  };
+
+  const getEnteredConfirmPassword = (event) => {
+    dispatch({
+      type: "CONFIRM-PASSWORD",
+      confirmPassword: event.target.value,
+    });
+  };
+
+  const toggleShowConfirmPassword = () => {
+    dispatch({ type: "SHOW-CONFIRM-PASSWORD" });
+  };
+
   const isFormValidHandler = async () => {
     if (
       username === "" ||
@@ -219,24 +247,17 @@ const SignupForm = () => {
                     value={enteredPassword}
                     fullWidth
                     placeholder="Enter password"
-                    type={`${
-                      currentUserState.showPassword ? "text" : "password"
-                    }`}
-                    onChange={(event) => {
-                      dispatch({
-                        type: "ENTERED-PASSWORD",
-                        password: event.target.value,
-                      });
-                    }}
+                    type={`${showPassword ? "text" : "password"}`}
+                    onChange={getEnteredPassword}
                     InputProps={{
-                      endAdornment: currentUserState.showPassword ? (
+                      endAdornment: showPassword ? (
                         <VisibilityIcon
-                          onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                          onClick={toggleShowPassword}
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         ></VisibilityIcon>
                       ) : (
                         <VisibilityOffIcon
-                          onClick={() => dispatch({ type: "SHOW-PASSWORD" })}
+                          onClick={toggleShowPassword}
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         ></VisibilityOffIcon>
                       ),
@@ -254,28 +275,17 @@ const SignupForm = () => {
                     value={confirmPassword}
                     fullWidth
                     placeholder="Confirm your password"
-                    type={`${
-                      currentUserState.showConfirmPassword ? "text" : "password"
-                    }`}
-                    onChange={(event) => {
-                      dispatch({
-                        type: "CONFIRM-PASSWORD",
-                        confirmPassword: event.target.value,
-                      });
-                    }}
+                    type={`${showConfirmPassword ? "text" : "password"}`}
+                    onChange={getEnteredConfirmPassword}
                     InputProps={{
-                      endAdornment: currentUserState.showConfirmPassword ? (
+                      endAdornment: showConfirmPassword ? (
                         <VisibilityIcon
-                          onClick={() =>
-                            dispatch({ type: "SHOW-CONFIRM-PASSWORD" })
-                          }
+                          onClick={toggleShowConfirmPassword}
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         ></VisibilityIcon>
                       ) : (
                         <VisibilityOffIcon
-                          onClick={() =>
-                            dispatch({ type: "SHOW-CONFIRM-PASSWORD" })
-                          }
+                          onClick={toggleShowConfirmPassword}
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         ></VisibilityOffIcon>
                       ),
