@@ -87,7 +87,7 @@ userSchema.methods.generateAuthToken = async function () {
         return generatedToken;
     } catch (error) {
         console.log("Catch block error", error);
-        res.status(422).json(error);
+       return res.status(422).json(error);
     }
 }
 

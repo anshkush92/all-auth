@@ -35,13 +35,20 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Using the routes defined for different paths
-app.use(commonRouter);
 app.use(userRouter);
 app.use(authenticateUserRouter);
 
 // Test --------------------------- Running the server ------------------------
 // Defining the PORT on which our server will be running
-const PORT = 8000 || process.env.PORT;
+const PORT = process.env.PORT || 8000;
+
+// Test -------------------------- Deployment Instructions --------------------
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+} else {
+    app.use(commonRouter);
+}
+
 
 // Starts the server on the given PORT ----> MOST IMP LINE
 app.listen(PORT, () => {
